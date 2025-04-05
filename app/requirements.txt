@@ -1,4 +1,4 @@
-flask
-gunicorn
-psycopg2-binary  # Required for PostgreSQL connection
+Flask==2.3.2
+gunicorn==21.2.0
+psycopg2-binary==2.9.9
 
