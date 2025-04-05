@@ -1,0 +1,28 @@
+---
+- name: Install PostgreSQL
+  yum:
+    name: postgresql-server
+    state: present
+
+- name: Initialize PostgreSQL
+  command: postgresql-setup initdb
+  args:
+    creates: /var/lib/pgsql/data/postgresql.conf
+
+- name: Start and enable PostgreSQL
+  systemd:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Create PostgreSQL user
+  postgresql_user:
+    name: flask_user
+    password: flask_password
+    role_attr_flags: CREATEDB
+
+- name: Create Flask database
+  postgresql_db:
+    name: flask_db
+    owner: flask_user
+

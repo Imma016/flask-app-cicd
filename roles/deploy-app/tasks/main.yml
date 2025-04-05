@@ -1,0 +1,22 @@
+---
+- name: Copy Flask app to server
+  copy:
+    src: /home/jenkins/artifacts/flask-app.tar.gz
+    dest: /home/centos/flask-app.tar.gz
+
+- name: Extract app
+  unarchive:
+    src: /home/centos/flask-app.tar.gz
+    dest: /home/centos/
+    remote_src: yes
+
+- name: Create environment file
+  template:
+    src: env.j2
+    dest: /home/centos/app/.env
+
+- name: Start Flask app with Gunicorn
+  command: gunicorn -w 4 -b 0.0.0.0:5000 wsgi:app
+  args:
+    chdir: /home/centos/app
+

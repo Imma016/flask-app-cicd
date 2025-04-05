@@ -1,0 +1,19 @@
+---
+- name: Setup Python and Flask
+  hosts: app_servers
+  become: yes
+  roles:
+    - python-flask
+
+- name: Setup PostgreSQL
+  hosts: database
+  become: yes
+  roles:
+    - postgresql
+
+- name: Deploy Flask App
+  hosts: app_servers
+  become: yes
+  roles:
+    - deploy-app
+
