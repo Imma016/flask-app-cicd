@@ -17,14 +17,14 @@ pipeline {
             steps {
                 sh '''
                     set -e
-                    sudo apt-get update
-                    sudo apt-get install -y python3-venv python3-full
+                    sudo apt-get update -qq
+                    sudo apt-get install -y python3-venv python3-full ansible
 
                     python3 -m venv venv
                     . venv/bin/activate
 
-                    pip install --upgrade pip --break-system-packages
-                    pip install -r app/requirements.txt --break-system-packages
+                    pip install --upgrade pip
+                    pip install -r app/requirements.txt
                 '''
             }
         }
@@ -49,10 +49,19 @@ pipeline {
         stage('Trigger Ansible Deployment') {
             steps {
                 sh '''
+                    cd ansible
                     ansible-playbook -i inventory deploy.yml
                 '''
             }
         }
     }
-}
 
+    post {
+        failure {
+            echo 'Pipeline failed! Check the logs for details.'
+        }
+        success {
+            echo 'Pipeline succeeded! Deployment complete.'
+        }
+    }
+}
