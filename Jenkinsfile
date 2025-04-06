@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         ARTIFACT_PATH = "/home/jenkins/artifacts"
+        VENV_DIR = "venv"
     }
 
     stages {
@@ -12,17 +13,14 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Setup Python Virtualenv') {
             steps {
                 sh '''
-                    if ! command -v pip &> /dev/null
-                    then
-                        echo "pip not found, installing..."
-                        sudo apt-get update
-                        sudo apt-get install -y python3 python3-pip
-                        sudo ln -sf /usr/bin/pip3 /usr/bin/pip
-                    fi
-
+                    sudo apt-get update
+                    sudo apt-get install -y python3-venv
+                    python3 -m venv $VENV_DIR
+                    source $VENV_DIR/bin/activate
+                    pip install --upgrade pip
                     pip install -r app/requirements.txt
                 '''
             }
