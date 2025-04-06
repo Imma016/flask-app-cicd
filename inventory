@@ -1,9 +1,0 @@
-[app_servers]
-app-server-1 ansible_host=<App_EC2_IP_1> ansible_user=centos
-app-server-2 ansible_host=<App_EC2_IP_2> ansible_user=centos
-app-server-3 ansible_host=<App_EC2_IP_3> ansible_user=centos
-app-server-4 ansible_host=<App_EC2_IP_4> ansible_user=centos
-
-[database]
-db-server ansible_host=<PostgreSQL_EC2_IP> ansible_user=centos
-
