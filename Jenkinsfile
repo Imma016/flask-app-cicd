@@ -18,11 +18,13 @@ pipeline {
                 sh '''
                     set -e
                     sudo apt-get update
-                    sudo apt-get install -y python3-venv
+                    sudo apt-get install -y python3-venv python3-full
+
                     python3 -m venv venv
                     . venv/bin/activate
-                    pip install --upgrade pip
-                    pip install -r app/requirements.txt
+
+                    pip install --upgrade pip --break-system-packages
+                    pip install -r app/requirements.txt --break-system-packages
                 '''
             }
         }
